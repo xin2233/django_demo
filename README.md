@@ -12,5 +12,8 @@ pip install -r requirements.txt
 
 python runserver 0.0.0.0:8000
 
-
+# 功能项
+[ ] 添加log记录保存功能
+[ ] 添加视频说明功能
+[ ]
  
