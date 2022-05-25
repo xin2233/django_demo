@@ -2,6 +2,9 @@
 简单的diango 网站demo，
 
 引用了一些网络上的前端模版
+# 环境
+python3.9  
+<!-- python3.7.0 实测无效 -->  
 # 快速运行：
 ## win： 
 virtualvenv venv   
@@ -14,3 +17,5 @@ python runserver 0.0.0.0:8000
 [ ] 添加视频说明功能  
 [ ]
  
+
+
