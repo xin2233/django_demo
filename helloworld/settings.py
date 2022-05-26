@@ -139,3 +139,92 @@ STATICFILES_DIRS = [
 # Django will use browser-length cookies – cookies that expire as soon as the user closes their browser.
 # Use this if you want people to have to log in every time they open a browser.
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+
+# log 开发
+LOGS_DIR = os.path.join(BASE_DIR, 'logs')  # 配置日志路径
+
+# 配置日志
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        # 详细的日志格式
+        'standard': {
+            'format': '[%(asctime)s][%(threadName)s:%(thread)d][task_id:%(name)s][%(filename)s:%(lineno)d]'
+            '[%(levelname)s][%(message)s]'
+        },
+        'verbose': {
+            # 输出日志级别名称，日志消息以及生成日志消息的时间，进程，线程和模块
+            # 'format': '%(levelname)s %(asctime)s %(module)s %(process)d %(thread)d %(message)s',
+            'format': '[%(asctime)s][%(threadName)s:%(thread)d][task_id:%(name)s][%(filename)s:%(lineno)d][%(levelname)s][%(message)s]',
+            'datefmt': "%Y-%m-%d %H:%M:%S"
+        },
+        'simple': {  # 定义命名为 simple 的格式化
+            'format': '%(levelname)s %(asctime)s %(message)s'  # 仅输出日志级别名称（例如 DEBUG）和日志消息。
+        },
+    },
+    'handlers': {
+        # 定义命名为 console 的处理器，将INFO级别的日志使用 stream 流处理打印到控制台
+        'console': {
+            'level': 'DEBUG',  # INFO DEBUG
+            'class': 'logging.StreamHandler',
+            'formatter': 'simple'  # 使用 simple，只输出日志等级以及 messages 信息
+        },
+        # loggings 单进程的配置方式：输出日志到文件，按日期滚动
+        # 'file': {
+        #     'level': 'DEBUG',
+        #     'class': 'logging.handlers.TimedRotatingFileHandler',
+        #     # TimedRotatingFileHandler的参数
+        #     # 参照https://docs.python.org/3/library/logging.handlers.html#timedrotatingfilehandler
+        #     # 目前设定每天一个日志文件
+        #     'filename': 'logs/loggerpratice.log',
+        #     'when': 'midnight',
+        #     'interval': 1,
+        #     'backupCount': 100,
+        #     'formatter': 'verbose', # 使用复杂的verbose详细信息输出
+        #     'encoding': 'utf-8'  # 设置utf8编码，避免中文乱码
+        # },
+
+        # windows下 多进程的配置方式：使用concurrent_log_handler
+        'file': {
+            'level': 'INFO',
+            'class': 'concurrent_log_handler.ConcurrentRotatingFileHandler',
+            'filename': os.path.join(LOGS_DIR, 'app.log'),
+            'maxBytes': 1024 * 1024 * 10,  # 当达到10MB时分割日志
+            'backupCount': 50,  # 最多保留50份文件
+            'formatter': 'verbose',  # 使用复杂的verbose详细信息输出
+            'encoding': 'utf-8'  # 设置utf8编码，避免中文乱码
+        },
+
+        # linux下 多进程的配置方式：使用ConcurrentLogHandler
+        # 'file': {
+        #     'level': 'INFO',
+        #     'class': 'cloghandler.ConcurrentRotatingFileHandler',
+        #     'filename': os.path.join(LOGS_DIR, 'app.log'),
+        #     'maxBytes': 1024 * 1024 * 10,  # 当达到10MB时分割日志
+        #     'backupCount': 50,  # 最多保留50份文件
+        #     'formatter': 'verbose',  # 使用复杂的verbose详细信息输出
+        #     # If delay is true,
+        #     # then file opening is deferred until the first call to emit().
+        #     'delay': True,
+        #     'encoding': 'utf-8'  # 设置utf8编码，避免中文乱码  
+        # },
+
+        # 发送邮件，目前腾讯云、阿里云的服务器对外发送邮件都有限制，暂时不使用
+        'email': {
+            'level': 'ERROR',
+            'class': 'django.utils.log.AdminEmailHandler',
+            'include_html': True,
+        }
+    },
+    'loggers': {
+        # 不同的logger
+        'django': {
+            'handlers': ['console', 'file'],
+            # 'level': 'INFO',
+            'level': 'DEBUG',  # 日志的等级为 debug
+            'propagate': True,
+        },
+    },
+}
+

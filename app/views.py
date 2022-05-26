@@ -1,11 +1,14 @@
 from django.shortcuts import redirect, render
 from . import models
 from app.forms import UserForm, RegisterForm
+from logger import logger
 
 # Create your views here.
 
 
 def index(request):
+    # logger.error('Something went wrong!') # Log an error message
+    logger.info('in index.html')
     return render(request, 'index.html', locals())
 
 
