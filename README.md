@@ -13,6 +13,7 @@ pip install -r requirements.txt
 python runserver 0.0.0.0:8000  
 
 # 功能项
+[√] 增加验证码点击刷新功能
 [ ] 添加log记录保存功能  
 [ ] 添加视频说明功能  
 [ ]

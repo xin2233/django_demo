@@ -17,6 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from app import views 
+from captcha.views import captcha_refresh  # 验证码刷新功能，captcha_refresh为captcha.views内置方法，不需要我们单独写
 
 urlpatterns = [
 
@@ -35,4 +36,5 @@ urlpatterns = [
 
     # 动作响应
     path('captcha/', include('captcha.urls')),
+    path('refresh/', captcha_refresh),      # 点击可以刷新验证码
 ]
