@@ -44,13 +44,17 @@ def login(request):
         if login_form.is_valid():
             username = login_form.cleaned_data['username']
             password = login_form.cleaned_data['password']
+            vc = request.POST['vc']
+            if vc.upper() != request.session['verifycode']:
+                message = "验证码不正确！"
+                return render(request, 'login.html', locals())
             try:
                 user = models.User.objects.get(name=username)
                 if user.password == password:  # 哈希值和数据库内的值进行比较
                     request.session['is_login'] = True
                     request.session['user_id'] = user.id
                     request.session['user_name'] = user.name
-                    return redirect('/index/')
+                    return render(request, 'login.html', locals())
                 else:
                     message = "密码不正确！"
             except:
@@ -110,3 +114,11 @@ def logout(request):
     # del request.session['user_id']
     # del request.session['user_name']
     return redirect("/index/")
+
+from django.http import HttpResponse
+def verifycodeValid(request):
+    vc = request.POST['vc']
+    if vc.upper() == request.session['verifycode']:
+        return HttpResponse('ok')
+    else:
+        return HttpResponse('no')

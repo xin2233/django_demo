@@ -16,7 +16,7 @@ Including another URLconf
 
 from django.contrib import admin
 from django.urls import path, include
-from app import views 
+from app import views, viewsUtil, backup
 
 urlpatterns = [
 
@@ -35,4 +35,8 @@ urlpatterns = [
 
     # 动作响应
     path('captcha/', include('captcha.urls')),
+    path('verifycode/', viewsUtil.verifycode), 
+    path('verifycode_backup/', backup.verify_code),
+    path('verifycodeValid/', views.verifycodeValid), 
+
 ]
