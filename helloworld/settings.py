@@ -140,6 +140,11 @@ STATICFILES_DIRS = [
 # Use this if you want people to have to log in every time they open a browser.
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
+# Default primary key field type
+# https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
+
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
 # log 开发
 LOGS_DIR = os.path.join(BASE_DIR, 'logs')  # 配置日志路径
 
@@ -219,11 +224,11 @@ LOGGING = {
     },
     'loggers': {
         # 不同的logger
-        'django': {
-            'handlers': ['console', 'file'],
-            # 'level': 'INFO',
-            'level': 'DEBUG',  # 日志的等级为 debug
+        'django': {  # 定义了一个名为django的日志器
+            'handlers': ['console', 'file'], # 可以同时在终端跟文件中输出
             'propagate': True,
+            # 'level': 'INFO',
+            'level;':'DEBUG' # 日至输出的最低级别
         },
     },
 }
