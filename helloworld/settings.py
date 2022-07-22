@@ -142,7 +142,6 @@ SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
-
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # log 开发
@@ -233,3 +232,6 @@ LOGGING = {
     },
 }
 
+# 文件上传之后都会存储在该路径下
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')

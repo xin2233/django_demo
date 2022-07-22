@@ -122,3 +122,32 @@ def verifycodeValid(request):
         return HttpResponse('ok')
     else:
         return HttpResponse('no')
+
+from django.http import HttpResponse,JsonResponse
+from app.models import Processlog
+
+def uploadFileSubmit(request):
+    # if 'username' in request.COOKIES:
+    #     # 获取记住的用户名
+    #     username = request.COOKIES['username']
+    # else:
+    #     username = ''
+    # print(username)
+    file = request.FILES.get('file_name')
+    # try:
+    if file:
+        Processlog.objects.create(file_name=file)
+        message = 'success!'
+        return render(request, 'test.html', locals())
+        # return render(request,'test.html',{'message': 1})
+    else:
+        message = 'failed!'
+        return render(request, 'test.html', locals())
+                #    {'message': 0})
+    # except Exception as e:
+    #     print(e)
+    #     # 2.使用模板
+    #     message = 'failed!'
+    #     return render(request, 'test.html', locals())
+    #     # return render(request, 'test.html',
+    #     #               {'message': 0})
