@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>订餐系统后台管理</title>
+  <title>系统后台管理</title>
   <!-- 支持响应式布局 -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <link rel="stylesheet" href="{% static 'myadmin/bower_components/bootstrap/dist/css/bootstrap.min.css'%}">
@@ -35,9 +35,9 @@
     <!-- Logo -->
     <a href="index2.html" class="logo">
       <!-- 侧栏迷你徽标 mini 50x50 pixels -->
-      <span class="logo-mini"><b>餐</b></span>
+      <span class="logo-mini"><b>后台</b></span>
       <!-- 常规状态标志和移动设备标志 -->
-      <span class="logo-lg"><b>订餐系统后台管理</b></span>
+      <span class="logo-lg"><b>系统后台管理</b></span>
     </a>
 
     <!-- Header Navbar 首部导航栏 -->
@@ -160,9 +160,10 @@
                 <img src="{% static 'myadmin/dist/img/user2-160x160.jpg'%}" class="img-circle" alt="User Image">
 
                 <p>
-                  张无忌 - 管理员
-                  <small>2020年07月16日加入</small>
+                  {{request.session.adminuser.nickname}} - 管理员
+                  <small>{{ request.session.adminuser.create_at }}22-08-19加入</small>
                 </p>
+        
               </li>
               <!-- Menu Footer-->
               <li class="user-footer">
@@ -170,7 +171,7 @@
                   <a href="#" class="btn btn-default btn-flat">个人信息</a>
                 </div>
                 <div class="pull-right">
-                  <a href="#" class="btn btn-default btn-flat">退 出</a>
+                  <a href="{% url 'myadmin_logout' %}" class="btn btn-default btn-flat">退 出</a>
                 </div>
               </li>
             </ul>
@@ -203,10 +204,10 @@
       <ul class="sidebar-menu" data-widget="tree">
         <li class="header">主要导航</li>
         <!-- 导航列表，你可以自行更改图标 -->
-        <li class="active"><a href="admin.html"><i class="fa fa-home"></i> <span>首页</span></a></li>
+        <li class="active"><a href="{% url 'myadmin_index' %}"><i class="fa fa-home"></i> <span>首页</span></a></li>
 
-        <li><a href="member.html"><i class="fa fa-users"></i> <span>会员管理</span></a></li>
-        <li><a href="shop.html"><i class="fa fa-sitemap"></i> <span>店铺管理</span></a></li>
+        <li><a href="{% url 'myadmin_member_index' 1 %}"><i class="fa fa-users"></i> <span>会员管理</span></a></li>
+        <li><a href="{% url 'myadmin_shop_index' 1 %}"><i class="fa fa-sitemap"></i> <span>店铺管理</span></a></li>
         <li class="treeview">
           <a href="category.html"><i class="fa fa-cutlery"></i> <span>菜品管理</span>
             <span class="pull-right-container">
@@ -214,12 +215,12 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="category.html"> <i class="fa fa-circle-o"></i> 菜品分类</a></li>
-            <li><a href="product.html"> <i class="fa fa-circle-o"></i> 菜品信息</a></li>
+            <li><a href="{% url 'myadmin_category_index' 1 %}"> <i class="fa fa-circle-o"></i> 菜品分类</a></li>
+            <li><a href="{% url 'myadmin_product_index' 1 %}"> <i class="fa fa-circle-o"></i> 菜品信息</a></li>
           </ul>
         </li>
         <li><a href="orders.html"><i class="fa fa-shopping-cart"></i> <span>订单管理</span></a></li>
-        <li><a href="#"><i class="fa fa-user"></i> <span>账号管理</span></a></li>
+        <li><a href="{% url 'myadmin_user_index' 1 %}"><i class="fa fa-user"></i> <span>账号管理</span></a></li>
         <li><a href="#"><i class="fa fa-key"></i> <span>权限管理</span></a></li>
         <li><a href="#"><i class="fa fa-gear"></i> <span>系统配置</span></a></li>
         <li><a href="#"><i class="fa fa-unlock-alt"></i> <span>认证体系</span></a></li>
@@ -288,25 +289,26 @@
 <script type="text/javascript">
   //自定义一个用于实现Ajax信息删除的函数
   function doDelete(del_url){
-    Modal.confirm({
-      msg: "确定要删除吗？",
-      title: ' 信息提示',
-      btnok: '确定',
-      btncl:'取消'
-    }).on(function (e){
-      if(e){ //判断是否点击了确定按钮
-        $.ajax({
+    // 功能成功
+    var msg = "确认？？？";
+    if (confirm(msg) == true){
+      console.log('ok');
+      $.ajax({
           type:'get',
           url:del_url,
           dataType:'json',
           async: false,
           success:function(res){
-            Modal.alert({msg:res.info, title:' 信息提示',btnok: '确定',btncl:'取消'});
+            window.alert("info: " + res.info + ",\n" +
+                          "id: " + res.id);
             window.location.reload(); //刷新当前页面.
           },
         });
-      }
-    });
+      return true;
+    }else{
+      console.log('Cancel');
+      return false;
+    }
   }
 </script>
 {% block loadjavascript %}
