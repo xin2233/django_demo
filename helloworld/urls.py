@@ -16,8 +16,12 @@ Including another URLconf
 
 from django.contrib import admin
 from django.urls import path, include
-from app import views 
-from captcha.views import captcha_refresh  # 验证码刷新功能，captcha_refresh为captcha.views内置方法，不需要我们单独写
+from app import views, viewsUtil, backup
+from django.conf import settings
+from django.conf.urls.static import static
+
+# 另一种验证码方法
+# from captcha.views import captcha_refresh  # 验证码刷新功能，captcha_refresh为captcha.views内置方法，不需要我们单独写
 
 urlpatterns = [
 
@@ -36,5 +40,16 @@ urlpatterns = [
 
     # 动作响应
     path('captcha/', include('captcha.urls')),
-    path('refresh/', captcha_refresh),      # 点击可以刷新验证码
+
+    path('verifycode/', viewsUtil.verifycode), 
+    path('verifycode_backup/', backup.verify_code),
+    path('verifycodeValid/', views.verifycodeValid), 
+
+    path('uploadFileSubmit/', views.uploadFileSubmit),
+# 另一种验证码方法
+    # path('refresh/', captcha_refresh),      # 点击可以刷新验证码
 ]
+
+# 配置用户上传文件url
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+# + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) #这是关键

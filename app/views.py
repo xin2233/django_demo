@@ -1,11 +1,14 @@
 from django.shortcuts import redirect, render
 from . import models
 from app.forms import UserForm, RegisterForm
+from logger import logger
 
 # Create your views here.
 
 
 def index(request):
+    # logger.error('Something went wrong!') # Log an error message
+    logger.info('in index.html')
     return render(request, 'index.html', locals())
 
 
@@ -41,13 +44,17 @@ def login(request):
         if login_form.is_valid():
             username = login_form.cleaned_data['username']
             password = login_form.cleaned_data['password']
+            vc = request.POST['vc']
+            if vc.upper() != request.session['verifycode']:
+                message = "验证码不正确！"
+                return render(request, 'login.html', locals())
             try:
                 user = models.User.objects.get(name=username)
                 if user.password == password:  # 哈希值和数据库内的值进行比较
                     request.session['is_login'] = True
                     request.session['user_id'] = user.id
                     request.session['user_name'] = user.name
-                    return redirect('/index/')
+                    return render(request, 'login.html', locals())
                 else:
                     message = "密码不正确！"
             except:
@@ -107,3 +114,40 @@ def logout(request):
     # del request.session['user_id']
     # del request.session['user_name']
     return redirect("/index/")
+
+from django.http import HttpResponse
+def verifycodeValid(request):
+    vc = request.POST['vc']
+    if vc.upper() == request.session['verifycode']:
+        return HttpResponse('ok')
+    else:
+        return HttpResponse('no')
+
+from django.http import HttpResponse,JsonResponse
+from app.models import Processlog
+
+def uploadFileSubmit(request):
+    # if 'username' in request.COOKIES:
+    #     # 获取记住的用户名
+    #     username = request.COOKIES['username']
+    # else:
+    #     username = ''
+    # print(username)
+    file = request.FILES.get('file_name')
+    # try:
+    if file:
+        Processlog.objects.create(file_name=file)
+        message = 'success!'
+        return render(request, 'test.html', locals())
+        # return render(request,'test.html',{'message': 1})
+    else:
+        message = 'failed!'
+        return render(request, 'test.html', locals())
+                #    {'message': 0})
+    # except Exception as e:
+    #     print(e)
+    #     # 2.使用模板
+    #     message = 'failed!'
+    #     return render(request, 'test.html', locals())
+    #     # return render(request, 'test.html',
+    #     #               {'message': 0})

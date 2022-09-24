@@ -97,16 +97,29 @@
                     {{ login_form.password }}
                 </div>
 
-                <div class="form-group">
+                <!-- <div class="form-group">
                     {{ login_form.captcha.errors }} 
                     {{ login_form.captcha.label_tag }}
                     {{ login_form.captcha }} 
+                </div> -->
+                <div class="form-group">
+                    <input type="text" name="vc">
+                    <img id='verifycode' src="/verifycode_backup/?1" alt="CheckCode"/>
                 </div>
-                <input type=button value=刷新 onclick="history.go(0)"  class="btn btn-default pull-middle">
+                <div id='verifycodeChange' type="button">看不清，换一个</div>
                 <button type="reset" class="btn btn-default pull-left">重置</button>
                 <button type="submit" class="btn btn-primary pull-right">提交</button>
 
             </form>
+
+            <script type="text/javascript" src="http://code.jquery.com/jquery-3.2.1.min.js"></script>
+            <script type="text/javascript">
+                $(function(){
+                    $('#verifycodeChange').css('cursor','pointer').click(function() {
+                        $('#verifycode').attr('src',$('#verifycode').attr('src')+1)
+                    });
+                });
+            </script>
         </div>
     </div>
 
@@ -127,7 +140,10 @@
     </div>
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="https://code.jquery.com/jquery-3.0.0.min.js"></script>
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.2.1.min.js"></script>
+
+{% comment %} 另一种验证码方法 {% endcomment %}
+    {% comment %} <script src="https://code.jquery.com/jquery-3.0.0.min.js"></script>
     <!-- {#刷新验证码的脚本，放到body部分的最后面即可#} -->
     <script type="text/javascript">
             $('.captcha').click(function () {
@@ -136,7 +152,7 @@
                     $('#id_captcha_0').val(result['key']);
                 });
             });
-    </script>
+    </script> {% endcomment %}
 
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="{% static 'bootstrap-3.3.7-dist/js/bootstrap.min.js' %}"></script>
