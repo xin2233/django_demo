@@ -141,6 +141,19 @@
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.2.1.min.js"></script>
+
+{% comment %} 另一种验证码方法 {% endcomment %}
+    {% comment %} <script src="https://code.jquery.com/jquery-3.0.0.min.js"></script>
+    <!-- {#刷新验证码的脚本，放到body部分的最后面即可#} -->
+    <script type="text/javascript">
+            $('.captcha').click(function () {
+                $.getJSON('/captcha/refresh/',function (result) {
+                    $('.captcha').attr('src',result['image_url']);
+                    $('#id_captcha_0').val(result['key']);
+                });
+            });
+    </script> {% endcomment %}
+
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="{% static 'bootstrap-3.3.7-dist/js/bootstrap.min.js' %}"></script>
 </body>
