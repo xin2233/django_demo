@@ -6,7 +6,7 @@ from django.core.paginator import Paginator
 from datetime import datetime
 import random
 
-from myadmin.models import User
+from ..models import User
 
 def index(request,pIndex=1):
     '''浏览信息'''
@@ -98,7 +98,7 @@ def test(request, id):
     return JsonResponse(context)
 
 def edit(request,uid):
-    '''加载编辑信息页面'''
+    """加载编辑信息页面"""
     try:
         ob = User.objects.get(id=uid)
         context={"user":ob}
@@ -108,7 +108,7 @@ def edit(request,uid):
         return render(request,"myadmin/info.html",context)
 
 def update(request,uid):
-    '''执行编辑信息'''
+    """执行编辑信息"""
     try:
         ob = User.objects.get(id=uid)
         ob.nickname = request.POST['nickname']

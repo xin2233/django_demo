@@ -6,7 +6,7 @@ from datetime import datetime
 import time,os
 
 
-from myadmin.models import Product,Shop,Category
+from ..models import Product, Shop, Category
 
 def index(request,pIndex=1):
     '''浏览信息'''
