@@ -79,11 +79,11 @@
             <!-- /.box-body -->
             <div class="box-footer clearfix">
              <ul class="pagination pagination-sm no-margin pull-right">
-                <li><a href="{% url 'myadmin_member_index' pIndex|add:-1 %}">&laquo;</a></li>
+                <li><a href="{% url 'myadmin_member_index' pindex|add:-1 %}">&laquo;</a></li>
                 {% for p in plist %}
-                  <li {% if p == pIndex %}class="active"{% endif %}><a href="{% url 'myadmin_member_index' p %}">{{p}}</a></li>
+                  <li {% if p == pindex %}class="active"{% endif %}><a href="{% url 'myadmin_member_index' p %}">{{p}}</a></li>
                 {% endfor %}
-                <li><a href="{% url 'myadmin_member_index' pIndex|add:1 %}">&raquo;</a></li>
+                <li><a href="{% url 'myadmin_member_index' pindex|add:1 %}">&raquo;</a></li>
               </ul>
             </div>
           </div>

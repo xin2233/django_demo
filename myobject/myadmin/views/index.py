@@ -19,8 +19,16 @@ def login(request):
     return render(request, "myadmin/index/login.html")
 
 
+# 会员执行登录
 def dologin(request):
     """执行登录"""
+    # 验证判断
+    verifycode = request.session['verifycode']
+    code = request.POST['code']
+    if verifycode != code:
+        context = {'info': '验证码错误！'}
+        return render(request, "myadmin/index/login.html", context)
+
     try:
         # 根据登录账号获取用户信息
         user = User.objects.get(username=request.POST['username'])

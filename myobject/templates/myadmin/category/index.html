@@ -77,11 +77,11 @@
               <a role="button" href="{% url 'myadmin_category_add' %}" class="btn btn-primary">
                 <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> 添加菜品分类</a>
                 <ul class="pagination pagination-sm no-margin pull-right">
-                    <li><a href="{% url 'myadmin_category_index' pIndex|add:-1 %}?{{mywhere|join:'&'}}">&laquo;</a></li>
+                    <li><a href="{% url 'myadmin_category_index' pindex|add:-1 %}?{{mywhere|join:'&'}}">&laquo;</a></li>
                     {% for p in plist %}
-                    <li {% if p == pIndex %}class="active"{% endif %}><a href="{% url 'myadmin_category_index' p %}?{{mywhere|join:'&'}}">{{p}}</a></li>
+                    <li {% if p == pindex %}class="active"{% endif %}><a href="{% url 'myadmin_category_index' p %}?{{mywhere|join:'&'}}">{{p}}</a></li>
                     {% endfor %}
-                    <li><a href="{% url 'myadmin_category_index' pIndex|add:1 %}?{{mywhere|join:'&'}}">&raquo;</a></li>
+                    <li><a href="{% url 'myadmin_category_index' pindex|add:1 %}?{{mywhere|join:'&'}}">&raquo;</a></li>
                 </ul>
             </div>
           </div>

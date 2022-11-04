@@ -83,11 +83,11 @@
               <a role="button" href="{% url 'myadmin_product_add' %}" class="btn btn-primary">
                       <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> 添加菜品</a>
               <ul class="pagination pagination-sm no-margin pull-right">
-                <li><a href="{% url 'myadmin_product_index' pIndex|add:-1 %}">&laquo;</a></li>
+                <li><a href="{% url 'myadmin_product_index' pindex|add:-1 %}">&laquo;</a></li>
                 {% for p in plist %}
-                  <li {% if pIndex == p %}class="active"{% endif %}><a href="{% url 'myadmin_product_index' p %}">{{ p }}</a></li>
+                  <li {% if pindex == p %}class="active"{% endif %}><a href="{% url 'myadmin_product_index' p %}">{{ p }}</a></li>
                 {% endfor %}
-                <li><a href="{% url 'myadmin_product_index' pIndex|add:1 %}">&raquo;</a></li>
+                <li><a href="{% url 'myadmin_product_index' pindex|add:1 %}">&raquo;</a></li>
               </ul>
             </div>
           </div>

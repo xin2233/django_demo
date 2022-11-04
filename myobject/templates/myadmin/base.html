@@ -1,6 +1,6 @@
 {% load static %}
 <!DOCTYPE html>
-<html>
+<html lang="zh">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -212,8 +212,8 @@
                 <li class="active"><a href="{% url 'myadmin_index' %}"><i class="fa fa-home"></i> <span>首页</span></a>
                 </li>
 
-                <li><a href="{% url 'myadmin_member_index' 1 %}"><i class="fa fa-users"></i> <span>会员管理</span></a></li>
-                <li><a href=""><i class="fa fa-sitemap"></i> <span>店铺管理</span></a></li>
+                <li><a href="{% url 'myadmin_user_index' 1 %}"><i class="fa fa-users"></i> <span>员工管理</span></a></li>
+                <li><a href="{% url 'myadmin_shop_index' 1 %}"><i class="fa fa-sitemap"></i> <span>店铺管理</span></a></li>
                 <li class="treeview">
                     <a href="category.html"><i class="fa fa-cutlery"></i> <span>菜品管理</span>
                         <span class="pull-right-container">
@@ -298,7 +298,7 @@
     //自定义一个用于实现Ajax信息删除的函数
     function doDelete(del_url) {
         // 功能成功
-        var msg = "确认？？？";
+        const msg = "确认？？？";
         if (confirm(msg) == true) {
             console.log('ok');
             $.ajax({

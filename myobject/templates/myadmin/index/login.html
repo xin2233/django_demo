@@ -1,6 +1,6 @@
 {% load static %}
 <!DOCTYPE html>
-<html>
+<html lang="zh">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -49,8 +49,8 @@
             <div class="form-group has-feedback">
                 <input type="text" name="code" style="display:inline;width:170px;" class="form-control"
                        placeholder="验证码">
-                {% comment %} <img src="{% static 'myadmin/dist/img/verify.png' %}"/> {% endcomment %}
-                <img src="{% url 'myadmin_verify' %}" onclick="this.src='{% url 'myadmin_verify' %}?sn='+Math.random()"
+                {% comment %} <img alt="" src="{% static 'myadmin/dist/img/verify.png' %}"/> {% endcomment %}
+                <img alt="" src="{% url 'myadmin_verify' %}" onclick="this.src='{% url 'myadmin_verify' %}?sn='+Math.random()"
                      style="float:right;margin:5px 20px;"/>
             </div>
             <div class="row">

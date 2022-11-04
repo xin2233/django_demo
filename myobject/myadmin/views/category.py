@@ -8,7 +8,7 @@ from myadmin.models import Category,Shop
 
 # 菜品分类信息
 
-def index(request,pIndex=1):
+def index(request,pindex=1):
     '''浏览信息'''
     smod = Category.objects
     mywhere=[]
@@ -28,15 +28,15 @@ def index(request,pIndex=1):
         mywhere.append("status="+status)
 
     #执行分页处理
-    pIndex = int(pIndex)
+    pindex = int(pindex)
     page = Paginator(list,10) #以10条每页创建分页对象
     maxpages = page.num_pages #最大页数
     #判断页数是否越界
-    if pIndex > maxpages:
-        pIndex = maxpages
-    if pIndex < 1:
-        pIndex = 1
-    list2 = page.page(pIndex) #当前页数据
+    if pindex > maxpages:
+        pindex = maxpages
+    if pindex < 1:
+        pindex = 1
+    list2 = page.page(pindex) #当前页数据
     plist = page.page_range   #页码数列表
 
     #遍历信息，并获取对应的商铺名称，以shopname名封装
@@ -44,7 +44,7 @@ def index(request,pIndex=1):
         sob = Shop.objects.get(id=vo.shop_id)
         vo.shopname = sob.name
     #封装信息加载模板输出
-    context = {"categorylist":list2,'plist':plist,'pIndex':pIndex,'maxpages':maxpages,'mywhere':mywhere}
+    context = {"categorylist":list2,'plist':plist,'pindex':pindex,'maxpages':maxpages,'mywhere':mywhere}
     return render(request,"myadmin/category/index.html",context)
 
 def loadCategory(request,sid):
