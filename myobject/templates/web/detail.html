@@ -7,12 +7,12 @@
         <th>小计</th>
     </tr>
     {% for vo in detaillist %}
-    <tr>
-        <td>{{ forloop.counter }}</td>
-        <td>{{ vo.product_name }}</td>
-        <td>{{ vo.price }}</td>
-        <td>{{ vo.quantity }}</td>
-        <td>{% widthratio  vo.price 1 vo.quantity %}</td>
-    </tr>
+        <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ vo.product_name }}</td>
+            <td>{{ vo.price }}</td>
+            <td>{{ vo.quantity }}</td>
+            <td>{% widthratio vo.price 1 vo.quantity %}</td>
+        </tr>
     {% endfor %}
 </table>
