@@ -109,6 +109,7 @@ def edit(request, uid):
         context = {"user": ob}
         return render(request, "myadmin/user/edit.html", context)
     except Exception as err:
+        print("err:", err)
         context = {"info": "没有找到要修改的信息！"}
         return render(request, "myadmin/info.html", context)
 
@@ -123,7 +124,7 @@ def update(request, uid):
         ob.save()
         context = {"info": "修改成功！"}
     except Exception as err:
-        print(err)
+        print("err:", err)
         context = {"info": "修改失败"}
     return render(request, "myadmin/info.html", context)
 
