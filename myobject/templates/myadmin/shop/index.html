@@ -25,8 +25,10 @@
                         <div class="box-tools">
                             <form action="{% url 'myadmin_shop_index' 1 %}" method="get">
                                 <div class="input-group input-group-sm" style="width: 150px;">
-                                    <input type="text" name="keyword" class="form-control pull-right"
-                                           placeholder="店铺名称">
+                                    <label>
+                                        <input type="text" name="keyword" class="form-control pull-right"
+                                               placeholder="店铺名称">
+                                    </label>
 
                                     <div class="input-group-btn">
                                         <button type="submit" class="btn btn-default"><i class="fa fa-search"></i>
@@ -72,7 +74,9 @@
                                     <td width="10%">{{ vo.update_at|date:'Y-m-d' }}</td>
                                     <td width="20%">
                                         <a href="{% url 'myadmin_shop_edit' vo.id %}" class="btn btn-success btn-xs">
-                                            <span class="glyphicon glyphicon-edit" aria-hidden="true"></span> 编辑</a>
+                                            <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+                                            编辑
+                                        </a>
                                         <button type="button" onclick="doDelete('{% url 'myadmin_shop_del' vo.id %}')"
                                                 class="btn btn-danger btn-xs">
                                             <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> 删除
@@ -85,14 +89,20 @@
                     <!-- /.box-body -->
                     <div class="box-footer clearfix">
                         <a role="button" href="{% url 'myadmin_shop_add' %}" class="btn btn-primary btn-xs">
-                            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> 添加店铺</a>
+                            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> 添加店铺
+                        </a>
                         <ul class="pagination pagination-sm no-margin pull-right">
-                            <li><a href="{% url 'myadmin_shop_index' pindex|add:-1 %}">&laquo;</a></li>
+                            <li>
+                                <a href="{% url 'myadmin_shop_index' pindex|add:-1 %}">&laquo;</a>
+                            </li>
                             {% for p in plist %}
-                                <li {% if p == pindex %}class="active"{% endif %}><a
-                                        href="{% url 'myadmin_shop_index' p %}">{{ p }}</a></li>
+                                <li {% if p == pindex %}class="active"{% endif %}>
+                                    <a href="{% url 'myadmin_shop_index' p %}">{{ p }}</a>
+                                </li>
                             {% endfor %}
-                            <li><a href="{% url 'myadmin_shop_index' pindex|add:1 %}">&raquo;</a></li>
+                            <li>
+                                <a href="{% url 'myadmin_shop_index' pindex|add:1 %}">&raquo;</a>
+                            </li>
                         </ul>
                     </div>
                 </div>

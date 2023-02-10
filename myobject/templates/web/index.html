@@ -179,7 +179,8 @@
                 <div style="width:120px;float:left;margin:5px 0px;">合计：￥<span
                         style="color:red;font-weight:bold;">168.00</span> 元
                 </div>
-                <button type="submit" class="btn btn-warning" style="width:130px;float:right">结 &nbsp; 算</button>
+{#                <button type="submit" class="btn btn-warning" style="width:130px;float:right">结 &nbsp; 算</button>#}
+                 <button type="button" onclick="dosubmit()" class="btn btn-warning" style="width:80px;float:right">结 &nbsp; 算</button>
             </div>
         </div>
     </div>
@@ -216,5 +217,36 @@
 </div>
 <script src="{% static 'web/js/jquery.min.js' %}"></script>
 <script src="{% static 'web/js/bootstrap.min.js' %}"></script>
+{#<script src="{% static 'web/static/js/jquery.min.js'%}"></script>#}
+{#<script src="{% static 'web/node_modules/bootstrap/dist/js/bootstrap.min.js'%}"></script>#}
+<script type="text/javascript">
+    function dosubmit(){
+        if($("table.table-striped tr").length==1){
+            alert("购物车没有菜品信息！");
+            return;
+        }
+        if(!window.confirm("确定要进行结算？")){
+            return;
+        }
+        var ptype = $("input[name='ptype']:checked").val();
+        var bank = $("input[name='bank']:checked").val();
+        $.ajax({
+            type:'get',
+            url:"{% url 'web_orders_insert' %}",
+            dataType:'text',
+            data:{ptype:ptype,bank:bank},
+            async: false,
+            success:function(res){
+                if(res == "Y"){
+                    alert("订单添加成功！");
+                    window.location.href="{% url 'web_index'%}";
+                }else{
+                    alert("订单处理失败！");
+                }
+            },
+        });
+
+    }
+</script>
 </body>
 </html>
