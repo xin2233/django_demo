@@ -7,12 +7,16 @@ from myadmin.models import User, Shop, Category, Product
 
 # Create your views here.
 def index(request):
-    return redirect(reverse('web_index'))
-
-
-def webIndex(request):
     """项目前台大堂点餐首页"""
-    return render(request, "web/index.html")
+    return redirect(reverse('web_index'))
+    # return render(request, "web/index.html")
+
+
+def webindex(request):
+    """项目前台大堂点餐首页"""
+    # 将session 中的菜品和类别信息获取并items转换，可实现for in 的遍历
+    context = {'categorylist':request.session.get("categorylist",{}).items()}
+    return render(request, "web/index.html", context)
 
 
 def login(request):
@@ -27,9 +31,7 @@ def dologin(request):
     """执行登录"""
     # 判断商铺选择
     if request.POST['shop_id'] == '0':
-        # context = {'info':'请选择您所在的商铺！'}
         return redirect(reverse('web_login') + "?typeinfo=1")
-        # return render(request,"web/login.html",context)
 
     # 验证判断
     verifycode = request.session['verifycode']
@@ -58,9 +60,10 @@ def dologin(request):
                 request.session['shopinfo'] = shopob.toDict()
                 # 获取当前店铺所对应的商品类别信息
                 clist = Category.objects.filter(shop_id=shopob.id, status=1)
-                categorylist = dict()
-                productlist = dict()
-                for vo in clist:
+                categorylist = dict()  # 类别列表，字典格式
+                productlist = dict()  # 菜品信息，字典
+                #遍历菜品信息类别信息
+                for vo in clist:  # 
                     c = {'id': vo.id, 'name': vo.name, 'pids': []}
                     plist = Product.objects.filter(shop_id=shopob.id, category_id=vo.id, status=1)
                     for p in plist:
@@ -79,7 +82,7 @@ def dologin(request):
             # 此用户非管理账号
             return redirect(reverse('web_login') + "?typeinfo=4")
     except Exception as err:
-        print(err)
+        print(f"err,{err}")
         # 登录账号不存在！
         return redirect(reverse('web_login') + "?typeinfo=3")
 
