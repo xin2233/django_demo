@@ -87,7 +87,7 @@
                     <ul class="pagination pagination-sm no-margin pull-right">
                         <li><a href="{% url 'myadmin_user_index' pindex|add:-1 %}">&laquo;</a></li>
                         {% for p in plist %}
-                        <li {% if p==pindex %}class="active" {% endif %}><a href="{% url 'myadmin_user_index' p %}">{{ p
+                        <li {% if p == pindex %}class="active" {% endif %}><a href="{% url 'myadmin_user_index' p %}">{{ p
                                 }}</a></li>
                         {% endfor %}
                         <li><a href="{% url 'myadmin_user_index' pindex|add:1 %}">&raquo;</a></li>
