@@ -13,10 +13,17 @@ def index(request):
 
 
 def webindex(request):
-    """项目前台大堂点餐首页"""
+    '''点餐前台首页'''
+    #获取购物车中菜品信息
+    cartlist = request.session.get("cartlist",{})
+    total_money = 0 #初始化一个总金额变量
+    #遍历购物车中菜品，并累计统计总金额
+    for vo in cartlist.values():
+        total_money = total_money + vo['num'] * vo['price']
+    request.session["total_money"] = total_money #将总金额存放到session中
     # 将session 中的菜品和类别信息获取并items转换，可实现for in 的遍历
-    context = {'categorylist':request.session.get("categorylist",{}).items()}
-    return render(request, "web/index.html", context)
+    context = {"categorylist":request.session.get('categorylist',{}).items()}
+    return render(request,"web/index.html",context)
 
 
 def login(request):
