@@ -1,11 +1,12 @@
 {% load static %}
+{% comment %} 订单展示页面 {% endcomment %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>点餐系统</title>
-    <link rel="stylesheet" href="{% static 'web/node_modules/bootstrap/dist/css/bootstrap.css' %}">
-    <link rel="stylesheet" href="{% static 'web/static/css/common.css' %}">
+    <link rel="stylesheet" href="{% static 'web/css/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'web/css/common.css' %}">
     <style type="text/css">
         body {
             min-height: 2000px;
@@ -102,11 +103,18 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-                <li><a href="{% url 'web_index' %}">堂吃点餐</a></li>
-                <li {% if request.GET.status == '1' %}class="active"{% endif %}><a
-                        href="{% url 'web_orders_index' 1 %}?status=1">当前订单</a></li>
-                <li {% if request.GET.status != '1' %}class="active"{% endif %}><a
-                        href="{% url 'web_orders_index' 1 %}?status=3">历史订单</a></li>
+                <li>
+                    <a href="{% url 'web_index' %}">堂吃点餐</a>
+                </li>
+                <li {% if request.GET.status == '1' %}class="active"{% endif %}>
+                    <a href="{% url 'web_orders_index' 1 %}?status=1">当前订单</a>
+                </li>
+                <li {% if request.GET.status == '3' %}class="active"{% endif %}>
+                    <a href="{% url 'web_orders_index' 1 %}?status=3">历史订单</a>
+                </li>
+                <li {% if request.GET.status == '2' %}class="active"{% endif %}>
+                    <a href="{% url 'web_orders_index' 1 %}?status=2">无效订单</a>
+                </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li>
@@ -284,6 +292,7 @@
             data: {oid: id},
             async: false,
             success: function (res) {
+                /*res是后端返回的数据，下面的函数是将res返回的数据给塞到这个div.modal-body中*/
                 $("#myModal div.modal-body").empty().append(res);
                 $('#myModal').modal({keyboard: false})
             },
