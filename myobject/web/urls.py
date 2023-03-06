@@ -30,16 +30,16 @@ urlpatterns = [
     path('verify', index.verify, name="web_verify"),  # 验证码
 
     path('web/', include([
-        path('', index.webIndex, name="web_index"),  # 前台大堂点餐首页
+        path('', index.webindex, name="web_index"),  # 前台大堂点餐首页
         # 购物车信息管理路由配置
         path('cart/add/<str:pid>', cart.add, name="web_cart_add"),
         path('cart/del/<str:pid>', cart.delete, name="web_cart_del"),
         path('cart/clear', cart.clear, name="web_cart_clear"),
         path('cart/change', cart.change, name="web_cart_change"),
         # 订单处理
-        path('orders/<int:pIndex>', orders.index, name="web_orders_index"), # 浏览订单
+        path('orders/<int:pindex>', orders.index, name="web_orders_index"), #浏览订单
         path('orders/insert', orders.insert, name='web_orders_insert'),  # 执行订单添加操作
-        path('orders/detail', orders.detail, name='web_orders_detail'), # 订单的详情信息
-        path('orders/status', orders.status, name='web_orders_status'), # 修改订单状态
+        path('orders/detail', orders.detail,name='web_orders_detail'), #订单的详情信息
+        path('orders/status', orders.status,name='web_orders_status'), #修改订单状态
     ]))
 ]

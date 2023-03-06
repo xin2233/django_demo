@@ -51,6 +51,9 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    # 注册自定义的中间件, 'app名.文件名.类名'
+    'myadmin.shopmiddleware.ShopMiddleware',
 ]
 
 ROOT_URLCONF = 'myobject.urls'
