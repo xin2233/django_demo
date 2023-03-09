@@ -21,7 +21,7 @@ from django.urls import path
 from mobile.views import index
 from mobile.views import member
 
-app_name = 'moblie'
+# app_name = 'mobile'
 urlpatterns = [
     path('', index.index, name="mobile_index"),  # 移动端首页
 
