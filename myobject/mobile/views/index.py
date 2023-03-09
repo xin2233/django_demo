@@ -2,18 +2,49 @@
 import datetime
 
 from django.shortcuts import render, redirect, reverse
-from myadmin.models import Member
+from myadmin.models import Member, Shop, Category, Product
 
 
 # Create your views here.
 def index(request):
     """移动端首页"""
-    return render(request, "mobile/index.html")
+    # 尝试从session中获取店铺信息
+    shopinfo = request.session.get("shopinfo")
+    print("s",shopinfo)
+    # 判断是否没有选择店铺，跳转去选择
+    if shopinfo is None:
+        return redirect(reverse('mobile_shop'))
+    # 获取当前店铺下所有的菜品信息
+    clist = Category.objects.filter(shop_id=shopinfo['id'], status=1)
+    print('c', clist)
+    productlist = dict()
+    for vo in clist:
+        plist = Product.objects.filter(shop_id=shopinfo['id'], category_id=vo.id, status=1)
+        productlist[vo.id] = plist
+        print('p',plist)
+    context = {"shopinfo": shopinfo, "categorylist": clist, "productlist": productlist.items(), "cid": clist[0]}
+    return render(request, "mobile/index.html", context)
 
 
 def register(request):
     """加载注册/登录页面"""
     return render(request, "mobile/register.html")
+
+
+def shop(request):
+    """ 呈现店铺选择页面 """
+    context = {'shoplist': Shop.objects.filter(status=1)}
+    return render(request, "mobile/shop.html", context)
+
+
+def selectShop(request):
+    ''' 执行店铺选择 '''
+    # 获取店铺id号，通过店铺id号获取店铺信息
+    sid = request.GET['sid']
+    ob = Shop.objects.get(id=sid)
+    # 将店铺信息放入到session中
+    request.session['shopinfo'] = ob.toDict()
+    return redirect(reverse('mobile_index'))
 
 
 def doregister(request):
@@ -48,18 +79,7 @@ def doregister(request):
         return redirect(reverse("mobile_index"))
     else:
         context = {"info": '此账户信息禁用！'}
-        return render(request, "mobile/register-back.html", context)
-
-
-def shop(request):
-    """ 呈现店铺选择页面 """
-    return render(request, "mobile/shop.html")
-
-
-def selectShop(request):
-    """ 执行店铺选择 """
-    # 选择好店铺后会跳转到移动端首页
-    pass
+        return render(request, "mobile/register.html", context)
 
 
 def addOrders(request):
