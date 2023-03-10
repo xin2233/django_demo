@@ -17,19 +17,15 @@
 
 	<!--内容区-->
 	<article class="main-container">
-		
+
 		<!--左侧栏目-->
 		<div class="sortNav" id="sortNav">
 			<p class="icon-sort line">分类导航</p>
             {% for vo in categorylist %}
             <a href="javascript:void(0);" onclick="doselectList(this,{{vo.id}})" {% if cid.id == vo.id %}class="select"{% endif %}>{{vo.name}}</a>
             {% endfor %}
-{#			<a href="javascript:void(0);" onclick="doselectList(this,1)">双拼套餐</a>#}
-{#			<a href="javascript:void(0);" onclick="doselectList(this,2)" class="select">盖饭</a>#}
-{#			<a href="javascript:void(0);" onclick="doselectList(this,3)">小菜</a>#}
-{#			<a href="javascript:void(0);" onclick="doselectList(this,4)">汤/饮料</a>#}
 		</div>
-		
+
 		<!--右侧产品-->
 		<div class="sortContent line">
 			<!--产品列表-->
@@ -48,32 +44,21 @@
             {% endfor %}
 			<br><br>
 		</div>
-		
+
 		<!--购物车-->
 		<div class="cartContent fadeInBottom100" id="cartContent">
-			
+
 			<div class="LayerHeader line">
 				<button class="Del" onclick="doCartClear()"><i class="icon-delete"></i>清空</button>
 				<button class="close pl"><i class="icon-plus rot45"></i></button>
 			</div>
-			
+
 			<div class="cartContentList">
 				<ul class="line-li">
-					<!--li>
-						<img src="img/img01.jpg" alt=""><p>家乐都有机里脊肉 500g</p><span>¥150.00</span>
-						<div class="D-BuyNum"><button><i class="icon-reduce"></i></button><input type="number" readonly class="line" value="9"><button><i class="icon-plus"></i></button></div>
-					</li>
-					<li>
-						<img src="img/img02.jpg" alt=""><p>法国猪肋排 1kg/袋</p><span>¥150.00</span>
-						<div class="D-BuyNum"><button><i class="icon-reduce"></i></button><input type="number" class="line" value="9"><button><i class="icon-plus"></i></button></div>
-					</li>
-					<li>
-						<img src="img/img03.jpg" alt=""><p>乌拉圭进口（无骨）牛肋条 约1kg</p><span>¥150.00</span>
-						<div class="D-BuyNum"><button><i class="icon-reduce"></i></button><input type="number" class="line" value="9"><button><i class="icon-plus"></i></button></div>
-					</li-->
+
 				</ul>
 			</div>
-			
+
 			<div class="LayerFooter">
 				共计：<span>¥0.00</span>
 			</div>
@@ -89,7 +74,7 @@
 		<a href="{% url 'mobile_member_index' %}"><i class="icon-head"></i>我的</a>
 		<a><button onclick="location.href='{% url 'mobile_addorders' %}'">去结算</button></a>
 	</menu>
-	
+
 	<!--弹出圈圈loading-->
 	<div class="spinner" style="display:none;"><i></i></div>
 {% endblock %}
@@ -97,53 +82,70 @@
 
 {% block myjavascript %}
 <script type="text/javascript">
-	function doselectList(ob,m){
-		$("#sortNav a").removeClass("select");
-		$(ob).addClass("select");
-		$("ol.list-content").hide();
-		$("#list-content"+m).show();
-		return false;
-	}
+    function doselectList(ob,m){
+        $("#sortNav a ").removeClass("select");
+        $(ob).addClass("select");
+        $("ol.list-content").hide();
+        $("#list-content"+m).show();
+        return false;
+    }
 
-	cartlist = [];
+    cartlist = [];
 
-	function doCartAdd(id){
-		shoplist = [{'id':1,'name':'法国猪肋排','cover_pic':'img/img25.jpg','price':35.00,'num':1},{'id':2,'name':'乌拉圭进口牛肋条','cover_pic':'img/img05.jpg','price':90.00,'num':1}];
-		shop = shoplist[id-1];
-		var b=true;
-		for(var i=0;i<cartlist.length;i++){
-			if(cartlist[i].id==id){
-				b = false;
-				cartlist[i].num += 1;
-				break;
-			}
-		}
-		if(b){
-			cartlist.push(shop);
-		}
-		doShowCart();
+    function doCartAdd(id){
+        $.ajax({
+            url: "{% url 'mobile_cart_add' %}?pid="+id,
+            type: 'get',
+            data: {},
+            dataType:'json',
+            success:function(res){
+                console.log(res.cartlist);
+                doShowCart(res.cartlist);
+            }
+        });
+        //doShowCart();
 
-	}
+    }
 
-	function doCartClear(){
-		cartlist = [];
-		doShowCart();
-	}
+    //清空购物车
+    function doCartClear(){
+        $.ajax({
+            url: "{% url 'mobile_cart_clear' %}",
+            type: 'get',
+            data: {},
+            dataType:'json',
+            success:function(res){
+                doShowCart(res.cartlist);
+            }
+        });
 
-	function doShowCart(){
-		var cartContent = $("#cartContent div.cartContentList ul.line-li");
-		cartContent.empty()
-		var total = 0.0;
-		for(var i=0;i<cartlist.length;i++){
-			var str = "<li>";
-			str += '<img src="'+cartlist[i].cover_pic+'" alt=""><p>'+cartlist[i].name+'</p><span>¥'+cartlist[i].price+'</span>';
-			str += '<div class="D-BuyNum"><button><i class="icon-reduce"></i></button><input type="number" readonly class="line" value="'+cartlist[i].num+'"><button><i class="icon-plus"></i></button></div>'
-			str += "</li>";
-			cartContent.append(str);
-			total += cartlist[i].price * cartlist[i].num; 
-		}
-		$("#cartContent div.LayerFooter span").html("￥"+total);
-		$("#orderCart i.icon-cart span").html(cartlist.length);
-	}
+    }
+
+    //重新绘制购物车内容
+    function doShowCart(cartlist){
+        var cartContent = $("#cartContent div.cartContentList ul.line-li");
+        cartContent.empty()
+        var total = 0.0;
+        for(let i in cartlist){
+            var str = "<li>";
+            str += '<img src="/static/uploads/product/'+cartlist[i].cover_pic+'" alt=""><p>'+cartlist[i].name+'</p><span>¥'+cartlist[i].price+'</span>';
+            str += '<div class="D-BuyNum"><button><i class="icon-reduce"></i></button><input type="number" readonly class="line" value="'+cartlist[i].num+'"><button><i class="icon-plus"></i></button></div>'
+            str += "</li>";
+            cartContent.append(str);
+            total += cartlist[i].price * cartlist[i].num;
+        }
+        $("#cartContent div.LayerFooter span").html("￥"+total);
+        $("#orderCart i.icon-cart span").html(Object.keys(cartlist).length);
+    }
+
+    $.ajax({
+        url: "{% url 'mobile_cart_add' %}",
+        type: 'get',
+        data: {},
+        dataType:'json',
+        success:function(res){
+            doShowCart(res.cartlist);
+        }
+    });
 </script>
 {% endblock %}
