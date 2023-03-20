@@ -1,5 +1,5 @@
-# myobject/mobile/views/index.py
-import datetime
+# myobject/mobile/views/index.py 
+from datetime import datetime
 
 from django.shortcuts import render, redirect, reverse
 from myadmin.models import Member, Shop, Category, Product
@@ -45,6 +45,8 @@ def selectShop(request):
     ob = Shop.objects.get(id=sid)
     # 将店铺信息放入到session中
     request.session['shopinfo'] = ob.toDict()
+    request.session['cartlist'] = {}  # 清空购物车
+    # 跳转首页
     return redirect(reverse('mobile_index'))
 
 

@@ -138,6 +138,7 @@
         $("#orderCart i.icon-cart span").html(Object.keys(cartlist).length);
     }
 
+    //当刷新页面的时候，更新购物车信息，并进行显示
     $.ajax({
         url: "{% url 'mobile_cart_add' %}",
         type: 'get',
