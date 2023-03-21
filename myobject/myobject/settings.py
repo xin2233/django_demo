@@ -41,7 +41,9 @@ INSTALLED_APPS = [
     'myadmin',
     'web',
     'mobile',
+    # 'moblie.apps.MobileConfig',
 ]
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

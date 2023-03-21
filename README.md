@@ -24,6 +24,5 @@ python manage.py runserver 0.0.0.0:8000
 - 管理员：admin ， admin  
 
 
-## 参考
-- 参考视频， 【2022 Django最全视频教程及项目实战-哔哩哔哩】 https://b23.tv/fKfU28V ，
-- 文档地址： 已备份到百度网盘中。
+## 感谢
+[十分感谢以下资源](./doc/感谢.md)
